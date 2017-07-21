@@ -1,0 +1,119 @@
+{% load staticfiles %}
+<html>
+
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<body class="bg-blue">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-lg-offset-3">
+        <br/>
+        <br/>
+        <a href='/users/todolist/ ' style="color: #FFFFFF"><-- Click Here to Back</a>
+        <div class="panel panel-body">
+          <div class="panel-body">
+            <h3 class="text-center text-uppercase pit"><b>{{ getParentName.tdlistParent }}</b></h3>
+
+                <form action="." method="post">
+                {% csrf_token %}
+               {{ child }}
+                <input type="submit" class="btn btn-pink" value="Save">
+                </form> 
+
+          <br/>
+{%if custom_users %}
+<table class="table table-bordered" id="data">
+<thead>
+<tr>
+  <th style="text-align:center; width:100px">if done, ✔
+  <th style="text-align:center;">Your todolist activities</th>
+</tr>
+</thead>
+<tbody>
+          {% for user in custom_users %}
+          <tr class="woi">
+            <td style="text-align:center; width:50px;">
+              <div id="waa">
+                <input type="checkbox" class="checkbox-test" id="wee" name="checkDelete"  value="{{user.id}}" >
+              </div>
+            </td>
+            <td style="text-align:center;">{{user.tdlistChild}}</td>
+          </tr>
+{% endfor %}
+
+</tbody>
+</table>
+{% else %}
+<center><img src="{% static 'img/noadd.png' %}" style="height:250px; width: 250px;"></center>
+{% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br/>
+  <br/>
+  <br/>
+
+
+<!-- The alert box to be shown when the submit button is clicked-->
+
+</body>
+</html>
+
+<script>
+// $('#disabler').click(function(){
+//  if(this.checked){
+//    alert('yuuuuu');
+  //  document.getElementById("disabler").disabled == true;
+//  }
+//  })
+
+  //    if(cibai.checked == true){
+  //      alert('wee');
+  //      document.getElementById("disabler").disabled == true;
+  //    }
+
+  // $( document ).ready(function() {
+  // $('input[id^="wee"]').on('click', function() {
+  //   alert(this.value);
+  //   $( 'input[id^="wee"]' ).hide();
+  // });
+  // });
+
+  $(function(){
+    $('.checkbox-test').each(function(){
+      $(this).change(function(){
+        if ($(this).prop("checked") == true){
+
+
+
+          $.post("/users/hello/", {value: this.value})
+           .done(function(data) { 
+              console.log(data);
+
+           }).fail(function() {
+            alert( "error" );
+          });
+
+
+        //  alert(this.value);
+          $(this).parents('.woi').css('background-color', '#6dd30e').css('color', '#FFFFFF');
+            $(this).prop('disabled', true);
+            $(this).prop('type', 'text');
+            $(this).val("Done").css('width', '40px').css('height', '20px').css('height', '20px').css('background', 'transparent').css('border', 'none');
+        }
+        else{
+          $(this).parents('.woi').css('background-color', 'white').css('color', '#000000');
+        }
+      });
+
+
+    });
+  });
+</script>

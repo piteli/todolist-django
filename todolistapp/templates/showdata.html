@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>List of Data</title>
+</head>
+<body>
+<a href='/users/todolist'><-- Go back</a><br>
+<p style="margin-left: 30px">List of complete todo tasks</p>
+<table class="table table-bordered">
+<thead>
+<tr>
+  <th style="text-align:center; width:200px">Complete list</th>
+  <th style="text-align:center;">Done</th>
+</tr>
+</thead>
+<tbody>
+ {% for task in all_task %}
+ <tr class="woi">
+            <td style="text-align:center;">{{task.tdlistChild}}</td>
+            <td style="text-align:center;">✔</td>
+          </tr>
+{% endfor %}
+</tbody>
+</table>
+</body>
+</html>

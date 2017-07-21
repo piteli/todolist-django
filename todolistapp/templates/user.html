@@ -1,0 +1,77 @@
+{% load staticfiles %}
+<html>
+
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+{# <script src="{% static 'js/bootstrap.min.js' %}"></script> #}
+<body class="bg-blue">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-lg-offset-3">
+        <br/>
+        <br/>
+        <br/>
+        <div class="panel panel-body">
+          <div class="panel-body">
+            <h3 class="text-center text-uppercase pit"><b>My To-Do</b><a class="btn btn-green" href='/users/showdata'>view Done list</a></h3>
+
+
+                <form action="{% url 'users:todolist' %}" method="post">
+                {% csrf_token %}
+               {{ form }}
+                <input type="submit" class="btn btn-pink" value="Create">
+                </form>
+
+          <br/>
+{%if all_users %}
+<table class="table table-bordered">
+<thead>
+<tr>
+  <th style="text-align:center; width:40px">No.</th>
+  <th style="text-align:center;">Your Area's activities</th>
+</tr>
+</thead>
+<tbody>
+          <form action="{% url 'users:todolist' %}" method="post" name="item">
+            {% csrf_token %} 
+          {% for user in all_users %}
+          <tr>
+            <td style="text-align:center; width:20px;">{{forloop.counter}}</td>
+            <td style="text-align:center;"><a href='/users/subtodolist/{{user.id}} '>{{user.tdlistParent}}</a><input class="checkBodu" type="checkbox" style="float: right; margin-right: 10px;" name="items" value="{{user.id}}"></td>
+{% endfor %}
+</tr>
+</tbody>
+</table>
+<div style="float: right;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="submit" class="btn btn-blue" name="delete" id="hantar" value="Delete" disabled></div>
+{% else %}
+<center><img src="{% static 'img/noadd.png' %}" style="height:250px; width: 250px;"></center>
+{% endif %}
+</form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br/>
+  <br/>
+  <br/>
+
+
+<!-- The alert box to be shown when the submit button is clicked-->
+
+</body>
+</html>
+
+
+<script type="text/javascript">
+  var checkBoxes = $('tbody .checkBodu');
+checkBoxes.change(function () {
+    $('#hantar').prop('disabled', checkBoxes.filter(':checked').length < 1);
+});
+checkBoxes.change();
+
+</script>
